@@ -3,6 +3,7 @@ package org.vaadin.mockapp.samples.crud;
 import org.vaadin.mockapp.MockAppUI;
 import org.vaadin.mockapp.samples.backend.DataService;
 import org.vaadin.mockapp.samples.data.Product;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -30,7 +31,7 @@ public class SampleCrudLogic {
 
 		// Hide and disable if not admin
 		if (!MockAppUI.get().getAccessControl().isUserInRole("admin")) {
-			view.replaceComponent(view.form, new Label(
+			view.layout.replaceComponent(view.form, new Label(
 					"Login as 'admin' to have edit access"));
 			view.newProduct.setEnabled(false);
 		}

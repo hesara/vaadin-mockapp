@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VerticalLayout spacing="true" margin="true"
+	xmlns="urn:import:com.vaadin.ui" xmlns:l="urn:vaadin:parent">
+	<TextField id="name" caption="Product name" width="100%"></TextField>
+	<HorizontalLayout spacing="true">
+		<TextField id="price" width="60px" caption="Price"></TextField>
+		<TextField id="stock" width="80px" caption="In stock"></TextField>
+		<NativeSelect id="state" nullSelectionAllowed="false"
+			caption="State"></NativeSelect>
+	</HorizontalLayout>
+	<TwinColSelect id="category" width="100%"></TwinColSelect>
+	<HorizontalLayout spacing="true">
+		<Button id="save" caption="Save"></Button>
+		<Button id="discard" caption="Discard"></Button>
+		<Button id="delete" caption="Delete"></Button>
+	</HorizontalLayout>
+</VerticalLayout>

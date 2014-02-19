@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VerticalLayout id="root" spacing="true" margin="true"
+	width="100%" height="100%" xmlns="urn:import:com.vaadin.ui" xmlns:l="urn:vaadin:parent"
+	xmlns:c="urn:import:org.vaadin.mockapp.samples.crud">
+	<!-- Top layout -->
+	<HorizontalLayout spacing="true" width="100%">
+		<Button caption="New product" id="new" />
+		<CheckBox caption="Form as popup" immediate="true" id="formAsPopup"
+			l:componentAlignment="MIDDLE_LEFT" />
+		<TextField id="filter" inputPrompt="Filter the table"
+			immediate="true" l:componentAlignment="TOP_RIGHT" l:expandRatio="1" />
+	</HorizontalLayout>
+	<c:ProductTable id="table" l:expandRatio="1" />
+	<c:ProductForm id="form" width="100%" enabled="false"
+		l:expandRatio="1" />
+</VerticalLayout>

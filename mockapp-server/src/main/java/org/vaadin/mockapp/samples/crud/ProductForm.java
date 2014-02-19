@@ -5,78 +5,60 @@ import java.util.Collection;
 import org.vaadin.mockapp.samples.AttributeExtension;
 import org.vaadin.mockapp.samples.data.Category;
 import org.vaadin.mockapp.samples.data.State;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiDataSource;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-public class ProductForm extends GridLayout {
+public class ProductForm extends CustomComponent {
 
-	TextField stockCount = new TextField("In stock");
-	NativeSelect state = new NativeSelect("State");
-	TwinColSelect category = new TwinColSelect("Categories");
-	TextField price = new TextField("Price");
-	TextField productName = new TextField("Product name");
-	Button saveButton = new Button("Save");
-	Button deleteButton = new Button("Delete");
-	Button discardButton = new Button("Discard");
+	@UiField
+	NativeSelect state;
+
+	@UiField
+	TwinColSelect category;
+	@UiField
+	TextField price;
+	@UiField("stock")
+	TextField stockCount;
+
+	// This is needed only for binding to be done properly
+	@UiField("name")
+	TextField productName;
+
 	private SampleCrudLogic viewLogic;
 
-	public ProductForm(SampleCrudLogic sampleCrudLogic) {
-		super(3, 3);
-		this.viewLogic = sampleCrudLogic;
-		setSpacing(true);
-		setMargin(true);
-
-		productName.setWidth("100%");
-		addComponent(productName, 0, 0, 2, 0);
-
+	public ProductForm() {
+		setCompositionRoot(Clara.create("ProductForm.xml", this));
 		price.setConverter(new EuroConverter());
-		price.setWidth("60px");
-		addComponent(price);
 
 		AttributeExtension ae = new AttributeExtension();
 		ae.extend(stockCount);
 		ae.setAttribute("type", "number");
-		stockCount.setWidth("80px");
-		addComponent(stockCount);
 
-		state.setNullSelectionAllowed(false);
 		for (State s : State.values()) {
 			state.addItem(s);
 		}
-		addComponent(state);
 
-		category.setWidth("100%");
-		addComponent(category, 0, 2, 2, 2);
+	}
 
-		addComponent(saveButton);
-		addComponent(discardButton);
-		addComponent(deleteButton);
+	@UiHandler("save")
+	public void saveProduct(ClickEvent event) {
+		viewLogic.saveProduct();
+	}
 
-		setColumnExpandRatio(2, 1);
+	@UiHandler("discard")
+	public void discardProduct(ClickEvent event) {
+		viewLogic.discardProduct();
+	}
 
-		saveButton.addClickListener(new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				viewLogic.saveProduct();
-			}
-		});
-
-		deleteButton.addClickListener(new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				viewLogic.deleteProduct();
-			}
-		});
-		
-		discardButton.addClickListener(new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				viewLogic.discardProduct();
-			}
-		});
-
+	@UiHandler("delete")
+	public void deleteProduct(ClickEvent event) {
+		viewLogic.deleteProduct();
 	}
 
 	public void setCategories(Collection<Category> categories) {
@@ -84,6 +66,10 @@ public class ProductForm extends GridLayout {
 		for (Category c : categories) {
 			category.addItem(c);
 		}
+	}
+
+	public void setViewLogic(SampleCrudLogic viewLogic) {
+		this.viewLogic = viewLogic;
 	}
 
 }
